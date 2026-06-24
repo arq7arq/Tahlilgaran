@@ -10,7 +10,7 @@ namespace Tahlilgaran.Data
 {
     public class AppDBContext : DbContext
     {
-        public DbSet<Admin> Products => Set<Admin>();
+        public DbSet<Admin> Admins => Set<Admin>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
