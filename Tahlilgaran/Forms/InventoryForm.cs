@@ -12,9 +12,16 @@ namespace Tahlilgaran.Forms
 {
     public partial class InventoryForm : Form
     {
-        public InventoryForm()
+        private Form _parent;
+        public InventoryForm(Form parent)
         {
             InitializeComponent();
+            _parent = parent;
+        }
+
+        private void InventoryForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _parent.Show();
         }
     }
 }

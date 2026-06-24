@@ -34,7 +34,7 @@ namespace Tahlilgaran.Forms
             }
             else
             {
-                var Main = new MainForm();
+                var Main = new MainForm(this);
                 Main.Show();
                 this.Hide();
             }

@@ -12,9 +12,23 @@ namespace Tahlilgaran.Forms
 {
     public partial class MainForm : Form
     {
-        public MainForm()
+        private Form _parent;
+        public MainForm(Form parent)
         {
             InitializeComponent();
+            _parent = parent;
+        }
+
+        private void pcbInventory_Click(object sender, EventArgs e)
+        {
+            InventoryForm inventoryForm = new InventoryForm(this);
+            inventoryForm.Show();
+            this.Hide();
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _parent.Close();
         }
     }
 }

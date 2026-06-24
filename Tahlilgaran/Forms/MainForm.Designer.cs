@@ -45,6 +45,7 @@
             this.pcbInventory.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pcbInventory.TabIndex = 0;
             this.pcbInventory.TabStop = false;
+            this.pcbInventory.Click += new System.EventHandler(this.pcbInventory_Click);
             // 
             // pcbWorkshop
             // 
@@ -88,6 +89,7 @@
             this.Controls.Add(this.pcbInventory);
             this.Name = "MainForm";
             this.Text = "صغحه اصلی";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.pcbInventory)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcbWorkshop)).EndInit();
             this.ResumeLayout(false);

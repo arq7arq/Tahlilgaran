@@ -50,6 +50,7 @@
             this.txbPassword.Font = new System.Drawing.Font("Segoe UI", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txbPassword.Location = new System.Drawing.Point(101, 370);
             this.txbPassword.Name = "txbPassword";
+            this.txbPassword.PasswordChar = '*';
             this.txbPassword.PlaceholderText = "رمزعبور";
             this.txbPassword.Size = new System.Drawing.Size(282, 51);
             this.txbPassword.TabIndex = 1;

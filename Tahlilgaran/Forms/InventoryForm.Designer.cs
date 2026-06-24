@@ -121,6 +121,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Name = "InventoryForm";
             this.Text = "انبار";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.InventoryForm_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
