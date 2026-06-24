@@ -56,10 +56,20 @@ namespace Tahlilgaran.Forms
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
+            DataGridViewRow row = dataGridView1.SelectedRows[0];
+
+            int id = Convert.ToInt32(row.Cells["InventoryID"].Value);
+
+            using var db = new AppDBContext();
+
+            var res = db.Inventories.FirstOrDefault(x => x.InventoryID == id);
+
             AddInventoryForm editInventoryForm = new AddInventoryForm(this);
             editInventoryForm.Text = "ویرایش";
-
+            editInventoryForm.editMode = true;
+            editInventoryForm.SetUpdateValue(res);
             editInventoryForm.Show();
+            this.Hide();
         }
     }
 }

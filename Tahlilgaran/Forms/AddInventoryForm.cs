@@ -15,6 +15,8 @@ namespace Tahlilgaran.Forms
     public partial class AddInventoryForm : Form
     {
         private InventoryForm _parent;
+        public bool editMode = false;
+        private int _inventoryID;
         public AddInventoryForm(InventoryForm parent)
         {
             InitializeComponent();
@@ -52,38 +54,86 @@ namespace Tahlilgaran.Forms
             }
         }
 
+        public void SetUpdateValue(Inventory inventory)
+        {
+            txbName.Text = inventory.Title;
+            txbCount.Text = inventory.Count.ToString();
+            txbPrice.Text = inventory.Price.ToString();
+            txbDesc.Text = inventory.Description;
+            _inventoryID = inventory.InventoryID;
+        }
+
+
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            using var db = new AppDBContext();
-
-            string title = txbName.Text;
-            int count = Convert.ToInt32(txbCount.Text);
-            long price = Convert.ToInt64(txbPrice.Text);
-            string description = txbDesc.Text;
-
-            Inventory inventory = new Inventory()
+            if (editMode)
             {
-                Title = title,
-                Description = description,
-                Count = count,
-                Price = price
-            };
+                using var db = new AppDBContext();
 
-            try
-            {
-                db.Add(inventory);
-                db.SaveChanges();
+                string title = txbName.Text;
+                int count = Convert.ToInt32(txbCount.Text);
+                long price = Convert.ToInt64(txbPrice.Text);
+                string description = txbDesc.Text;
+
+                Inventory inventory = new Inventory()
+                {
+                    InventoryID = _inventoryID,
+                    Title = title,
+                    Description = description,
+                    Count = count,
+                    Price = price
+                };
+
+                try
+                {
+                    db.Update(inventory);
+                    db.SaveChanges();
+                }
+                catch
+                {
+                    MessageBox.Show("خطا در ثبت اطلاعات");
+                }
+                finally
+                {
+                    MessageBox.Show("کالا با موفقیت ثبت شد");
+                    _parent.Show();
+                    _parent.UpdateData();
+                    this.Close();
+                }
             }
-            catch
+            else
             {
-                MessageBox.Show("خطا در ثبت اطلاعات");
-            }
-            finally
-            {
-                MessageBox.Show("کالا با موفقیت ثبت شد");
-                _parent.Show();
-                _parent.UpdateData();
-                this.Close();
+                using var db = new AppDBContext();
+
+                string title = txbName.Text;
+                int count = Convert.ToInt32(txbCount.Text);
+                long price = Convert.ToInt64(txbPrice.Text);
+                string description = txbDesc.Text;
+
+                Inventory inventory = new Inventory()
+                {
+                    Title = title,
+                    Description = description,
+                    Count = count,
+                    Price = price
+                };
+
+                try
+                {
+                    db.Add(inventory);
+                    db.SaveChanges();
+                }
+                catch
+                {
+                    MessageBox.Show("خطا در ثبت اطلاعات");
+                }
+                finally
+                {
+                    MessageBox.Show("کالا با موفقیت ثبت شد");
+                    _parent.Show();
+                    _parent.UpdateData();
+                    this.Close();
+                }
             }
         }
     }
