@@ -30,5 +30,12 @@ namespace Tahlilgaran.Forms
         {
             _parent.Close();
         }
+
+        private void pcbWorkshop_Click(object sender, EventArgs e)
+        {
+            OrderForm orderForm = new OrderForm(this);
+            orderForm.Show();
+            this.Hide();
+        }
     }
 }

@@ -56,6 +56,7 @@
             this.pcbWorkshop.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pcbWorkshop.TabIndex = 1;
             this.pcbWorkshop.TabStop = false;
+            this.pcbWorkshop.Click += new System.EventHandler(this.pcbWorkshop_Click);
             // 
             // label1
             // 
