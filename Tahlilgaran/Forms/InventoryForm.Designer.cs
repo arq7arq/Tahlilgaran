@@ -33,7 +33,6 @@
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.txbSearch = new System.Windows.Forms.TextBox();
-            this.btnSearch = new System.Windows.Forms.Button();
             this.btnSell = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -89,20 +88,12 @@
             // txbSearch
             // 
             this.txbSearch.Font = new System.Drawing.Font("Segoe UI", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txbSearch.Location = new System.Drawing.Point(366, 105);
+            this.txbSearch.Location = new System.Drawing.Point(12, 105);
             this.txbSearch.Name = "txbSearch";
-            this.txbSearch.Size = new System.Drawing.Size(706, 51);
+            this.txbSearch.PlaceholderText = "جستوجو";
+            this.txbSearch.Size = new System.Drawing.Size(1060, 51);
             this.txbSearch.TabIndex = 4;
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnSearch.Location = new System.Drawing.Point(12, 105);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(348, 51);
-            this.btnSearch.TabIndex = 5;
-            this.btnSearch.Text = "جستجو";
-            this.btnSearch.UseVisualStyleBackColor = false;
+            this.txbSearch.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // btnSell
             // 
@@ -113,6 +104,7 @@
             this.btnSell.TabIndex = 6;
             this.btnSell.Text = "فروش";
             this.btnSell.UseVisualStyleBackColor = false;
+            this.btnSell.Click += new System.EventHandler(this.btnSell_Click);
             // 
             // InventoryForm
             // 
@@ -121,7 +113,6 @@
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1084, 715);
             this.Controls.Add(this.btnSell);
-            this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.txbSearch);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnEdit);
@@ -144,7 +135,6 @@
         private Button btnEdit;
         private Button btnDelete;
         private TextBox txbSearch;
-        private Button btnSearch;
         private Button btnSell;
     }
 }
