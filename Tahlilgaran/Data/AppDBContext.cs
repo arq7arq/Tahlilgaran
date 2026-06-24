@@ -12,6 +12,7 @@ namespace Tahlilgaran.Data
     public class AppDBContext : DbContext
     {
         public DbSet<Admin> Admins => Set<Admin>();
+        public DbSet<Inventory> Inventories => Set<Inventory>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

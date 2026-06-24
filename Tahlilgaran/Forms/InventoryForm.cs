@@ -17,11 +17,14 @@ namespace Tahlilgaran.Forms
         {
             InitializeComponent();
             _parent = parent;
+            
         }
 
         private void InventoryForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             _parent.Show();
         }
+
+
     }
 }
