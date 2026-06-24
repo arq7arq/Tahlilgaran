@@ -54,6 +54,7 @@
             this.txbCount.Size = new System.Drawing.Size(457, 57);
             this.txbCount.TabIndex = 1;
             this.txbCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txbCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txbCount_KeyPress);
             // 
             // txbPrice
             // 
@@ -64,6 +65,7 @@
             this.txbPrice.Size = new System.Drawing.Size(457, 57);
             this.txbPrice.TabIndex = 2;
             this.txbPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txbPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txbPrice_KeyPress);
             // 
             // txbDesc
             // 
@@ -88,6 +90,7 @@
             this.btnAdd.TabIndex = 4;
             this.btnAdd.Text = "ثبت";
             this.btnAdd.UseVisualStyleBackColor = false;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // AddInventoryForm
             // 
@@ -102,6 +105,7 @@
             this.Controls.Add(this.txbName);
             this.Name = "AddInventoryForm";
             this.Text = "انبار/افزودن";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AddInventoryForm_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

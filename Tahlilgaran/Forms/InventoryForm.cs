@@ -27,6 +27,19 @@ namespace Tahlilgaran.Forms
 
         private void InventoryForm_Load(object sender, EventArgs e)
         {
+            UpdateData();
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            AddInventoryForm addInventoryForm = new AddInventoryForm(this);
+            addInventoryForm.Show();
+            this.Hide();
+        }
+
+
+        public void UpdateData()
+        {
             using var db = new AppDBContext();
 
             var res = db.Inventories.ToList();
