@@ -94,6 +94,7 @@
             this.txbSearch.Size = new System.Drawing.Size(1060, 51);
             this.txbSearch.TabIndex = 4;
             this.txbSearch.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txbSearch.TextChanged += new System.EventHandler(this.txbSearch_TextChanged);
             // 
             // btnSell
             // 

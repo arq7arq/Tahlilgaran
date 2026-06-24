@@ -141,5 +141,23 @@ namespace Tahlilgaran.Forms
                 }
             }
         }
+
+        private void txbSearch_TextChanged(object sender, EventArgs e)
+        {
+            string search = txbSearch.Text;
+
+            using var db = new AppDBContext();
+
+            var res = db.Inventories.Where(x => x.Title.Contains(search) || x.Description.Contains(search)).ToList();
+
+            dataGridView1.DataSource = res;
+            dataGridView1.Columns["InventoryID"].HeaderText = "کد کالا";
+            dataGridView1.Columns["Title"].HeaderText = "عنوان";
+            dataGridView1.Columns["Count"].HeaderText = "تعداد";
+            dataGridView1.Columns["Price"].HeaderText = "قیمت";
+            dataGridView1.Columns["Description"].HeaderText = "توضیحات";
+
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
     }
 }
