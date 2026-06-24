@@ -64,12 +64,42 @@ namespace Tahlilgaran.Forms
 
             var res = db.Inventories.FirstOrDefault(x => x.InventoryID == id);
 
+            if (res == null)
+            {
+                MessageBox.Show("خطا در دریافت اطلاعات");
+            }
+
             AddInventoryForm editInventoryForm = new AddInventoryForm(this);
-            editInventoryForm.Text = "ویرایش";
+            editInventoryForm.Text = "انبار/ویرایش";
             editInventoryForm.editMode = true;
             editInventoryForm.SetUpdateValue(res);
             editInventoryForm.Show();
             this.Hide();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow row = dataGridView1.SelectedRows[0];
+
+            int id = Convert.ToInt32(row.Cells["InventoryID"].Value);
+
+            using var db = new AppDBContext();
+
+            try
+            {
+                var res = db.Inventories.FirstOrDefault(x => x.InventoryID == id);
+                db.Remove(res);
+                db.SaveChanges();
+            }
+            catch
+            {
+                MessageBox.Show("خطا در حذف اطلاعات");
+            }
+            finally
+            {
+                MessageBox.Show("کالا با موفقیت حذف شد");
+            }
+            UpdateData();
         }
     }
 }
