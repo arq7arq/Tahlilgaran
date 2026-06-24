@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tahlilgaran.Data;
+using Tahlilgaran.Models;
 
 namespace Tahlilgaran.Forms
 {
@@ -46,6 +47,23 @@ namespace Tahlilgaran.Forms
             dataGridView1.Columns["FinishTime"].HeaderText = "زمان تحویل";
 
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                int id = Convert.ToInt32(row.Cells["OrderID"].Value);
+
+                Order order = res.FirstOrDefault(x => x.OrderID == id);
+
+                if (order.IsComplete)
+                {
+                    row.DefaultCellStyle.BackColor = Color.LightBlue;
+                }
+                else if (order.IsDone)
+                {
+                    row.DefaultCellStyle.BackColor = Color.LightYellow;
+                }
+            }
         }
 
         private void OrderForm_Load(object sender, EventArgs e)
@@ -215,6 +233,30 @@ namespace Tahlilgaran.Forms
             dataGridView1.Columns["FinishTime"].HeaderText = "زمان تحویل";
 
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+
+            int id = Convert.ToInt32(row.Cells["OrderID"].Value);
+
+            using var db = new AppDBContext();
+
+            var res = db.Orders.FirstOrDefault(x => x.OrderID == id);
+
+            if (res == null)
+            {
+                MessageBox.Show("خطا در دریافت اطلاعات");
+            }
+
+            OrderDetail orderDetail = new OrderDetail(this);
+            orderDetail.SetProblems(res.Problems);
+            orderDetail.Show();
+            this.Hide();
         }
     }
 }
