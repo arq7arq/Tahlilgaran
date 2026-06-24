@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tahlilgaran.Models;
+using Tahlilgaran.Utility;
 
 namespace Tahlilgaran.Data
 {
@@ -24,6 +25,15 @@ namespace Tahlilgaran.Data
             var dbPath = Path.Combine(folder, "app.db");
 
             optionsBuilder.UseSqlite($"Data Source={dbPath}");
+
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Admin>().HasData(
+                new Admin() { AdminID=1, Username="admin", Password=PasswordHasher.HashPassword("1234")}
+            );
+        }
+
     }
 }

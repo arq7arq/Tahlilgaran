@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Tahlilgaran.Data;
 using Tahlilgaran.Forms;
 
 namespace Tahlilgaran
@@ -13,6 +15,12 @@ namespace Tahlilgaran
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
+
+            using (var db = new AppDBContext())
+            {
+                db.Database.Migrate();
+            }
+
             Application.Run(new LoginForm());
         }
     }
