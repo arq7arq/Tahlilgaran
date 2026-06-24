@@ -87,7 +87,7 @@
             this.Controls.Add(this.pcbWorkshop);
             this.Controls.Add(this.pcbInventory);
             this.Name = "MainForm";
-            this.Text = "MainForm";
+            this.Text = "صغحه اصلی";
             ((System.ComponentModel.ISupportInitialize)(this.pcbInventory)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcbWorkshop)).EndInit();
             this.ResumeLayout(false);
