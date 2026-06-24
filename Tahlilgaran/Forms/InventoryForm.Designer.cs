@@ -34,6 +34,7 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.txbSearch = new System.Windows.Forms.TextBox();
             this.btnSearch = new System.Windows.Forms.Button();
+            this.btnSell = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,9 +51,9 @@
             // btnAdd
             // 
             this.btnAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnAdd.Location = new System.Drawing.Point(724, 32);
+            this.btnAdd.Location = new System.Drawing.Point(813, 32);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(348, 51);
+            this.btnAdd.Size = new System.Drawing.Size(259, 51);
             this.btnAdd.TabIndex = 1;
             this.btnAdd.Text = "افزودن";
             this.btnAdd.UseVisualStyleBackColor = false;
@@ -60,9 +61,9 @@
             // btnEdit
             // 
             this.btnEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnEdit.Location = new System.Drawing.Point(366, 32);
+            this.btnEdit.Location = new System.Drawing.Point(545, 32);
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(348, 51);
+            this.btnEdit.Size = new System.Drawing.Size(259, 51);
             this.btnEdit.TabIndex = 2;
             this.btnEdit.Text = "ویرایش";
             this.btnEdit.UseVisualStyleBackColor = false;
@@ -70,9 +71,9 @@
             // btnDelete
             // 
             this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.btnDelete.Location = new System.Drawing.Point(12, 32);
+            this.btnDelete.Location = new System.Drawing.Point(279, 32);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(348, 51);
+            this.btnDelete.Size = new System.Drawing.Size(259, 51);
             this.btnDelete.TabIndex = 3;
             this.btnDelete.Text = "حذف";
             this.btnDelete.UseVisualStyleBackColor = false;
@@ -95,12 +96,23 @@
             this.btnSearch.Text = "جستجو";
             this.btnSearch.UseVisualStyleBackColor = false;
             // 
+            // btnSell
+            // 
+            this.btnSell.BackColor = System.Drawing.Color.Blue;
+            this.btnSell.Location = new System.Drawing.Point(12, 32);
+            this.btnSell.Name = "btnSell";
+            this.btnSell.Size = new System.Drawing.Size(259, 51);
+            this.btnSell.TabIndex = 6;
+            this.btnSell.Text = "فروش";
+            this.btnSell.UseVisualStyleBackColor = false;
+            // 
             // InventoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1084, 715);
+            this.Controls.Add(this.btnSell);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.txbSearch);
             this.Controls.Add(this.btnDelete);
@@ -123,5 +135,6 @@
         private Button btnDelete;
         private TextBox txbSearch;
         private Button btnSearch;
+        private Button btnSell;
     }
 }
