@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tahlilgaran.Data;
 
 namespace Tahlilgaran.Forms
 {
@@ -17,7 +18,6 @@ namespace Tahlilgaran.Forms
         {
             InitializeComponent();
             _parent = parent;
-            
         }
 
         private void InventoryForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -25,6 +25,20 @@ namespace Tahlilgaran.Forms
             _parent.Show();
         }
 
+        private void InventoryForm_Load(object sender, EventArgs e)
+        {
+            using var db = new AppDBContext();
 
+            var res = db.Inventories.ToList();
+
+            dataGridView1.DataSource = res;
+            dataGridView1.Columns["InventoryID"].HeaderText = "کد کالا";
+            dataGridView1.Columns["Title"].HeaderText = "عنوان";
+            dataGridView1.Columns["Count"].HeaderText = "تعداد";
+            dataGridView1.Columns["Price"].HeaderText = "قیمت";
+            dataGridView1.Columns["Description"].HeaderText = "توضیحات";
+
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
     }
 }
