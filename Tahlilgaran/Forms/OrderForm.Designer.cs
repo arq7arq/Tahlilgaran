@@ -63,6 +63,7 @@
             this.btnAdd.TabIndex = 1;
             this.btnAdd.Text = "ثبت";
             this.btnAdd.UseVisualStyleBackColor = false;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnEdit
             // 
@@ -74,6 +75,7 @@
             this.btnEdit.TabIndex = 2;
             this.btnEdit.Text = "ویرایش";
             this.btnEdit.UseVisualStyleBackColor = false;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // btnDelete
             // 
@@ -85,6 +87,7 @@
             this.btnDelete.TabIndex = 3;
             this.btnDelete.Text = "حذف";
             this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnDone
             // 
@@ -96,6 +99,7 @@
             this.btnDone.TabIndex = 4;
             this.btnDone.Text = "پایان تعمیر";
             this.btnDone.UseVisualStyleBackColor = false;
+            this.btnDone.Click += new System.EventHandler(this.btnDone_Click);
             // 
             // btnComplete
             // 
@@ -107,6 +111,7 @@
             this.btnComplete.TabIndex = 5;
             this.btnComplete.Text = "تحویل";
             this.btnComplete.UseVisualStyleBackColor = false;
+            this.btnComplete.Click += new System.EventHandler(this.btnComplete_Click);
             // 
             // txbSearch
             // 
@@ -117,6 +122,7 @@
             this.txbSearch.Size = new System.Drawing.Size(1230, 51);
             this.txbSearch.TabIndex = 6;
             this.txbSearch.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txbSearch.TextChanged += new System.EventHandler(this.txbSearch_TextChanged);
             // 
             // OrderForm
             // 
@@ -132,7 +138,7 @@
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.dataGridView1);
             this.Name = "OrderForm";
-            this.Text = "OrderForm";
+            this.Text = "نعمیرات";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OrderForm_FormClosed);
             this.Load += new System.EventHandler(this.OrderForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

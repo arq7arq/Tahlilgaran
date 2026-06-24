@@ -57,5 +57,164 @@ namespace Tahlilgaran.Forms
         {
             _parent.Show();
         }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            AddOrderForm addOrderForm = new AddOrderForm(this);
+            addOrderForm.Show();
+            this.Hide();
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow row = dataGridView1.SelectedRows[0];
+
+            int id = Convert.ToInt32(row.Cells["OrderID"].Value);
+
+            using var db = new AppDBContext();
+
+            var res = db.Orders.FirstOrDefault(x => x.OrderID == id);
+
+            if (res == null)
+            {
+                MessageBox.Show("خطا در دریافت اطلاعات");
+            }
+
+            AddOrderForm editOrderForm = new AddOrderForm(this);
+            editOrderForm.Text = "تعمیرات/ویرایش";
+            editOrderForm.editMode = true;
+            editOrderForm.SetUpdateValue(res);
+            editOrderForm.Show();
+            this.Hide();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow row = dataGridView1.SelectedRows[0];
+
+            int id = Convert.ToInt32(row.Cells["OrderID"].Value);
+
+            using var db = new AppDBContext();
+
+            try
+            {
+                var res = db.Orders.FirstOrDefault(x => x.OrderID == id);
+                db.Remove(res);
+                db.SaveChanges();
+            }
+            catch
+            {
+                MessageBox.Show("خطا در حذف اطلاعات");
+            }
+            finally
+            {
+                MessageBox.Show("تعمیر با موفقیت حذف شد");
+            }
+            UpdateData();
+        }
+
+        private void btnDone_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow row = dataGridView1.SelectedRows[0];
+
+            int id = Convert.ToInt32(row.Cells["OrderID"].Value);
+
+            using var db = new AppDBContext();
+
+            var res = db.Orders.FirstOrDefault(x => x.OrderID == id);
+
+            if (res == null)
+            {
+                MessageBox.Show("خطا در دریافت اطلاعات");
+            }
+
+
+            try
+            {
+                res.IsDone = true;
+                db.Update(res);
+                db.SaveChanges();
+            }
+            catch
+            {
+                MessageBox.Show("خطا در ثبت اطلاعات");
+            }
+            finally
+            {
+                // TODO Log this on sales 
+                MessageBox.Show("دستگاه اماده است");
+                UpdateData();
+            }
+        }
+
+        private void btnComplete_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow row = dataGridView1.SelectedRows[0];
+
+            int id = Convert.ToInt32(row.Cells["OrderID"].Value);
+
+            using var db = new AppDBContext();
+
+            var res = db.Orders.FirstOrDefault(x => x.OrderID == id);
+
+            if (res == null)
+            {
+                MessageBox.Show("خطا در دریافت اطلاعات");
+            }
+
+            if (!res.IsDone)
+            {
+                MessageBox.Show("دستگاه هنوز اماده تحویل نیست");
+            }
+            else
+            {
+                try
+                {
+                    res.IsComplete = true;
+                    db.Update(res);
+                    db.SaveChanges();
+                }
+                catch
+                {
+                    MessageBox.Show("خطا در ثبت اطلاعات");
+                }
+                finally
+                {
+                    MessageBox.Show("دستگاه به مشتری تحویل داده شد");
+                    UpdateData();
+                }
+            }
+            
+        }
+
+        private void txbSearch_TextChanged(object sender, EventArgs e)
+        {
+            string search = txbSearch.Text;
+
+            using var db = new AppDBContext();
+
+            var res = db.Orders.Where(x => x.UserName.Contains(search) || x.Phone.Contains(search) || x.Device.Contains(search)).ToList();
+
+            dataGridView1.DataSource = res.Select(x => new
+            {
+                x.OrderID,
+                x.Device,
+                x.UserName,
+                x.Phone,
+                x.Problems,
+                x.StartTime,
+                x.FinishTime
+            }).ToList();
+
+            dataGridView1.Columns["OrderID"].HeaderText = "کد تحویل";
+            dataGridView1.Columns["Device"].HeaderText = "دستگاه";
+            dataGridView1.Columns["UserName"].HeaderText = "نام";
+            dataGridView1.Columns["Phone"].HeaderText = "شماره تماس";
+            dataGridView1.Columns["Problems"].HeaderText = "مشکلات";
+            dataGridView1.Columns["StartTime"].HeaderText = "زمان دریافت";
+            dataGridView1.Columns["FinishTime"].HeaderText = "زمان تحویل";
+
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
     }
 }
