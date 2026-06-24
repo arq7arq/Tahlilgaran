@@ -53,5 +53,13 @@ namespace Tahlilgaran.Forms
 
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            AddInventoryForm editInventoryForm = new AddInventoryForm(this);
+            editInventoryForm.Text = "ویرایش";
+
+            editInventoryForm.Show();
+        }
     }
 }
