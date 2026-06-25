@@ -19,6 +19,14 @@ The application interface is designed for Persian-language users and includes tw
 - Local per-user SQLite database
 - Automatic EF Core database migration on startup
 
+## Download
+
+You can download the latest Windows installer from the GitHub Releases page:
+
+[Download Tahlilgaran](https://github.com/arq7arq/Tahlilgaran/releases/latest)
+
+After downloading the setup file, run it and follow the installation steps.
+
 ## Tech Stack
 
 - C#
