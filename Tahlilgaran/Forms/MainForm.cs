@@ -7,16 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tahlilgaran.Models;
 
 namespace Tahlilgaran.Forms
 {
     public partial class MainForm : Form
     {
+        private Admin _admin;
         private Form _parent;
-        public MainForm(Form parent)
+        public MainForm(Form parent, Admin admin)
         {
             InitializeComponent();
             _parent = parent;
+            _admin = admin;
         }
 
         private void pcbInventory_Click(object sender, EventArgs e)
@@ -35,6 +38,14 @@ namespace Tahlilgaran.Forms
         {
             OrderForm orderForm = new OrderForm(this);
             orderForm.Show();
+            this.Hide();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            ChangePasswordForm changePasswordForm = new ChangePasswordForm(this);
+            changePasswordForm.SetAdmin(_admin);
+            changePasswordForm.Show();
             this.Hide();
         }
     }
