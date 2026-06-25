@@ -18,7 +18,7 @@ namespace Tahlilgaran.Models
 
 
         public DateTime StartTime { get; set; }
-        public DateTime FinishTime { get; set; }
+        public DateTime? FinishTime { get; set; }
 
         public bool IsDone { get; set; }
         public bool IsComplete { get; set; } // user received

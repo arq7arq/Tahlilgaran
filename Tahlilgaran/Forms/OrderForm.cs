@@ -63,6 +63,7 @@ namespace Tahlilgaran.Forms
                 {
                     row.DefaultCellStyle.BackColor = Color.LightYellow;
                 }
+
             }
         }
 
@@ -189,6 +190,7 @@ namespace Tahlilgaran.Forms
                 try
                 {
                     res.IsComplete = true;
+                    res.FinishTime = DateTime.Now;
                     db.Update(res);
                     db.SaveChanges();
                 }
@@ -233,6 +235,22 @@ namespace Tahlilgaran.Forms
             dataGridView1.Columns["FinishTime"].HeaderText = "زمان تحویل";
 
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                int id = Convert.ToInt32(row.Cells["OrderID"].Value);
+
+                Order order = res.FirstOrDefault(x => x.OrderID == id);
+
+                if (order.IsComplete)
+                {
+                    row.DefaultCellStyle.BackColor = Color.LightBlue;
+                }
+                else if (order.IsDone)
+                {
+                    row.DefaultCellStyle.BackColor = Color.LightYellow;
+                }
+            }
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

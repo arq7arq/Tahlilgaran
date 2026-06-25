@@ -107,7 +107,6 @@ namespace Tahlilgaran.Forms
                     Phone = phone,
                     Device = device,
                     UserName = username,
-                    FinishTime = DateTime.Now,
                     IsComplete = false,
                     IsDone = false,
                     StartTime = DateTime.Now
