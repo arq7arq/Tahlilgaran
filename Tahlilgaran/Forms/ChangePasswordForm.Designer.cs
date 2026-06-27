@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChangePasswordForm));
             this.txbName = new System.Windows.Forms.TextBox();
             this.txbPassword = new System.Windows.Forms.TextBox();
             this.txbRePass = new System.Windows.Forms.TextBox();
@@ -88,6 +89,7 @@
             this.Controls.Add(this.txbRePass);
             this.Controls.Add(this.txbPassword);
             this.Controls.Add(this.txbName);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ChangePasswordForm";
             this.Text = "ChangePasswordForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ChangePasswordForm_FormClosed);

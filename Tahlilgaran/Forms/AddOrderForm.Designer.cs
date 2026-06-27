@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddOrderForm));
             this.txbName = new System.Windows.Forms.TextBox();
             this.txbPhone = new System.Windows.Forms.TextBox();
             this.txbDevice = new System.Windows.Forms.TextBox();
@@ -101,6 +102,7 @@
             this.Controls.Add(this.txbDevice);
             this.Controls.Add(this.txbPhone);
             this.Controls.Add(this.txbName);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddOrderForm";
             this.Text = "تعمیرات/افزودن";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AddOrderForm_FormClosed);

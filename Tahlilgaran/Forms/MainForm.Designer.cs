@@ -115,6 +115,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pcbWorkshop);
             this.Controls.Add(this.pcbInventory);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "صغحه اصلی";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);

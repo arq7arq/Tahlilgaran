@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddInventoryForm));
             this.txbName = new System.Windows.Forms.TextBox();
             this.txbCount = new System.Windows.Forms.TextBox();
             this.txbPrice = new System.Windows.Forms.TextBox();
@@ -103,6 +104,7 @@
             this.Controls.Add(this.txbPrice);
             this.Controls.Add(this.txbCount);
             this.Controls.Add(this.txbName);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddInventoryForm";
             this.Text = "انبار/افزودن";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AddInventoryForm_FormClosed);

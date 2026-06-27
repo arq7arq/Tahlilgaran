@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OrderDetail));
             this.txbProblems = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
@@ -48,8 +49,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(762, 607);
             this.Controls.Add(this.txbProblems);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "OrderDetail";
-            this.Text = "OrderDetail";
+            this.Text = "تعمیرات/مشکلات";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OrderDetail_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
