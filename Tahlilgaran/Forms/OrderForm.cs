@@ -145,23 +145,25 @@ namespace Tahlilgaran.Forms
                 MessageBox.Show("خطا در دریافت اطلاعات");
             }
 
+            AddPriceForm addPriceForm = new AddPriceForm(this);
+            addPriceForm.Show();
 
-            try
-            {
-                res.IsDone = true;
-                db.Update(res);
-                db.SaveChanges();
-            }
-            catch
-            {
-                MessageBox.Show("خطا در ثبت اطلاعات");
-            }
-            finally
-            {
-                // TODO Log this on sales 
-                MessageBox.Show("دستگاه اماده است");
-                UpdateData();
-            }
+            //try
+            //{
+            //    res.IsDone = true;
+            //    db.Update(res);
+            //    db.SaveChanges();
+            //}
+            //catch
+            //{
+            //    MessageBox.Show("خطا در ثبت اطلاعات");
+            //}
+            //finally
+            //{
+            //    // TODO Log this on sales 
+            //    MessageBox.Show("دستگاه اماده است");
+            //    UpdateData();
+            //}
         }
 
         private void btnComplete_Click(object sender, EventArgs e)
