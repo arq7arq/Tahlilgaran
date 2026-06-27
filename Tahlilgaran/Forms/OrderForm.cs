@@ -81,7 +81,6 @@ namespace Tahlilgaran.Forms
         {
             AddOrderForm addOrderForm = new AddOrderForm(this);
             addOrderForm.Show();
-            this.Hide();
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -104,7 +103,6 @@ namespace Tahlilgaran.Forms
             editOrderForm.editMode = true;
             editOrderForm.SetUpdateValue(res);
             editOrderForm.Show();
-            this.Hide();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
