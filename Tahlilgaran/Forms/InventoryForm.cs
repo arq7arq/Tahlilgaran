@@ -159,5 +159,38 @@ namespace Tahlilgaran.Forms
 
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow row = dataGridView1.SelectedRows[0];
+
+            int id = Convert.ToInt32(row.Cells["InventoryID"].Value);
+
+            using var db = new AppDBContext();
+
+            var res = db.Inventories.FirstOrDefault(x => x.InventoryID == id);
+
+            if (res == null)
+            {
+                MessageBox.Show("خطا در دریافت اطلاعات");
+            }
+
+            try
+            {
+                res.Count += 1;
+                db.Update(res);
+                db.SaveChanges();
+            }
+            catch
+            {
+                MessageBox.Show("خطا در ثبت اطلاعات");
+            }
+            finally
+            {
+                // TODO Log this on sales 
+                MessageBox.Show("کالا مرجوع شد");
+                UpdateData();
+            }
+        }
     }
 }
