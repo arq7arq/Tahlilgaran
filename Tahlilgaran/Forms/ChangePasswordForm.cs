@@ -35,6 +35,11 @@ namespace Tahlilgaran.Forms
             string password = txbPassword.Text;
             string repass = txbRePass.Text;
 
+            if (password.Length == 0)
+            {
+                MessageBox.Show("رمز عبور را وارد کنید");
+            }
+
             if (password != repass)
             {
                 MessageBox.Show("رمزعبور و تکرار آن یکسان نیست");
