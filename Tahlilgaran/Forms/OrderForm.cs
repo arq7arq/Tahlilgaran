@@ -34,6 +34,7 @@ namespace Tahlilgaran.Forms
                 x.UserName,
                 x.Phone,
                 x.Problems,
+                x.Price,
                 x.StartTime,
                 x.FinishTime
             }).ToList();
@@ -45,6 +46,7 @@ namespace Tahlilgaran.Forms
             dataGridView1.Columns["Problems"].HeaderText = "مشکلات";
             dataGridView1.Columns["StartTime"].HeaderText = "زمان دریافت";
             dataGridView1.Columns["FinishTime"].HeaderText = "زمان تحویل";
+            dataGridView1.Columns["Price"].HeaderText = "هزینه";
 
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
@@ -130,6 +132,31 @@ namespace Tahlilgaran.Forms
             UpdateData();
         }
 
+        public void FinishDone(int id, decimal price)
+        {
+            using var db = new AppDBContext();
+
+            var res = db.Orders.FirstOrDefault(x => x.OrderID == id);
+
+            try
+            {
+                res.IsDone = true;
+                res.Price = price;
+                db.Update(res);
+                db.SaveChanges();
+            }
+            catch
+            {
+                MessageBox.Show("خطا در ثبت اطلاعات");
+            }
+            finally
+            {
+                // TODO Log this on sales 
+                MessageBox.Show("دستگاه اماده است");
+                UpdateData();
+            }
+        }
+
         private void btnDone_Click(object sender, EventArgs e)
         {
             DataGridViewRow row = dataGridView1.SelectedRows[0];
@@ -146,24 +173,8 @@ namespace Tahlilgaran.Forms
             }
 
             AddPriceForm addPriceForm = new AddPriceForm(this);
+            addPriceForm.SetOrderID(id);
             addPriceForm.Show();
-
-            //try
-            //{
-            //    res.IsDone = true;
-            //    db.Update(res);
-            //    db.SaveChanges();
-            //}
-            //catch
-            //{
-            //    MessageBox.Show("خطا در ثبت اطلاعات");
-            //}
-            //finally
-            //{
-            //    // TODO Log this on sales 
-            //    MessageBox.Show("دستگاه اماده است");
-            //    UpdateData();
-            //}
         }
 
         private void btnComplete_Click(object sender, EventArgs e)
@@ -222,6 +233,7 @@ namespace Tahlilgaran.Forms
                 x.UserName,
                 x.Phone,
                 x.Problems,
+                x.Price,
                 x.StartTime,
                 x.FinishTime
             }).ToList();
@@ -233,6 +245,7 @@ namespace Tahlilgaran.Forms
             dataGridView1.Columns["Problems"].HeaderText = "مشکلات";
             dataGridView1.Columns["StartTime"].HeaderText = "زمان دریافت";
             dataGridView1.Columns["FinishTime"].HeaderText = "زمان تحویل";
+            dataGridView1.Columns["Price"].HeaderText = "هزینه";
 
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 

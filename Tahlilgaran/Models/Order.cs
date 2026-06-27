@@ -17,11 +17,15 @@ namespace Tahlilgaran.Models
         public string Phone { get; set; }
 
 
+        public decimal Price { get; set; }
+
+
         public DateTime StartTime { get; set; }
         public DateTime? FinishTime { get; set; }
 
         public bool IsDone { get; set; }
         public bool IsComplete { get; set; } // user received
+
 
 
         public ICollection<OrderPrice> OrderPrices { get; set; }
