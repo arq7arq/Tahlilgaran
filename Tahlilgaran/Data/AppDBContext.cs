@@ -14,6 +14,7 @@ namespace Tahlilgaran.Data
         public DbSet<Admin> Admins => Set<Admin>();
         public DbSet<Inventory> Inventories => Set<Inventory>();
         public DbSet<Order> Orders => Set<Order>();
+        public DbSet<OrderPrice> OrderPrices => Set<OrderPrice>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

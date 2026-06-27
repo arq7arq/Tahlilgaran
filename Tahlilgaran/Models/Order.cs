@@ -22,5 +22,8 @@ namespace Tahlilgaran.Models
 
         public bool IsDone { get; set; }
         public bool IsComplete { get; set; } // user received
+
+
+        public ICollection<OrderPrice> OrderPrices { get; set; }
     }
 }
