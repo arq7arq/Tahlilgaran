@@ -27,6 +27,7 @@ namespace Tahlilgaran.Forms
             _parent = parent;
             printDocument.PrintPage += PrintDocument_PrintPage;
             _logo = Properties.Resources.tahlilgaran;
+            printDocument.BeginPrint += PrintDocument_BeginPrint;
         }
 
         public void UpdateData()
@@ -326,6 +327,12 @@ namespace Tahlilgaran.Forms
             }
         }
 
+        private int _printItemIndex = 0;
+
+        private void PrintDocument_BeginPrint(object sender, PrintEventArgs e)
+        {
+            _printItemIndex = 0;
+        }
 
         private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
@@ -336,6 +343,7 @@ namespace Tahlilgaran.Forms
             int x = e.MarginBounds.Left;
             int y = e.MarginBounds.Top;
             int width = e.MarginBounds.Width;
+            int pageBottom = e.MarginBounds.Bottom;
 
             using Font shopFont = new Font("Tahoma", 22, FontStyle.Bold);
             using Font titleFont = new Font("Tahoma", 30, FontStyle.Bold);
@@ -367,20 +375,11 @@ namespace Tahlilgaran.Forms
             // Logo
             int logoSize = 100;
             int logoX = x + (width - logoSize * 2) / 2;
-            g.DrawImage(_logo, logoX, y, logoSize * 2, logoSize);
 
-            y += 95;
+            if (_logo != null)
+                g.DrawImage(_logo, logoX, y, logoSize * 2, logoSize);
 
-            // Shop name
-            //g.DrawString("فروشگاه شما", shopFont, Brushes.Black,
-            //    new RectangleF(x, y, width, 40), center);
-
-            //y += 38;
-
-            //g.DrawString("بهترین کیفیت، بهترین انتخاب", normalFont, Brushes.Black,
-            //    new RectangleF(x, y, width, 32), center);
-
-            y += 50;
+            y += 145;
 
             // Invoice title
             g.DrawString("فاکتور", titleFont, Brushes.Black,
@@ -433,14 +432,27 @@ namespace Tahlilgaran.Forms
 
             y += rowHeight;
 
-            int index = 1;
-            decimal total = 0;
+            var items = _printOrder.OrderPrices.ToList();
 
-            foreach (var item in _printOrder.OrderPrices)
+            int lastPageReserve = 200;
+
+            while (_printItemIndex < items.Count)
             {
-                total += item.Price;
+                bool isLastItem = _printItemIndex == items.Count - 1;
+                int neededSpace = rowHeight;
 
-                DrawCell(g, index.ToString(), tableFont, Brushes.White, borderPen,
+                if (isLastItem)
+                    neededSpace += lastPageReserve;
+
+                if (y + neededSpace > pageBottom)
+                {
+                    e.HasMorePages = true;
+                    return;
+                }
+
+                var item = items[_printItemIndex];
+
+                DrawCell(g, (_printItemIndex + 1).ToString(), tableFont, Brushes.White, borderPen,
                     x + width - numberWidth, y, numberWidth, rowHeight, center);
 
                 DrawCell(g, item.Title, tableFont, Brushes.White, borderPen,
@@ -450,7 +462,7 @@ namespace Tahlilgaran.Forms
                     x, y, priceWidth, rowHeight, center);
 
                 y += rowHeight;
-                index++;
+                _printItemIndex++;
             }
 
             y += 40;
@@ -472,16 +484,16 @@ namespace Tahlilgaran.Forms
         }
 
         private void DrawCell(
-            Graphics g,
-            string text,
-            Font font,
-            Brush background,
-            Pen border,
-            int x,
-            int y,
-            int width,
-            int height,
-            StringFormat format)
+    Graphics g,
+    string text,
+    Font font,
+    Brush background,
+    Pen border,
+    int x,
+    int y,
+    int width,
+    int height,
+    StringFormat format)
         {
             g.FillRectangle(background, x, y, width, height);
             g.DrawRectangle(border, x, y, width, height);

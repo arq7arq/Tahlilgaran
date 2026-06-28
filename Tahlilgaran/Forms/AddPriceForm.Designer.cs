@@ -90,7 +90,7 @@
             // 
             this.lblPrice.AutoSize = true;
             this.lblPrice.Font = new System.Drawing.Font("Segoe UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblPrice.Location = new System.Drawing.Point(276, 557);
+            this.lblPrice.Location = new System.Drawing.Point(212, 557);
             this.lblPrice.Name = "lblPrice";
             this.lblPrice.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.lblPrice.Size = new System.Drawing.Size(47, 38);
