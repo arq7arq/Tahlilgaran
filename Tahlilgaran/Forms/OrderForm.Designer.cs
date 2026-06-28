@@ -36,6 +36,7 @@
             this.btnDone = new System.Windows.Forms.Button();
             this.btnComplete = new System.Windows.Forms.Button();
             this.txbSearch = new System.Windows.Forms.TextBox();
+            this.btnPrint = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,9 +60,9 @@
             // 
             this.btnAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.btnAdd.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnAdd.Location = new System.Drawing.Point(1005, 12);
+            this.btnAdd.Location = new System.Drawing.Point(1051, 12);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(237, 61);
+            this.btnAdd.Size = new System.Drawing.Size(191, 61);
             this.btnAdd.TabIndex = 1;
             this.btnAdd.Text = "ثبت";
             this.btnAdd.UseVisualStyleBackColor = false;
@@ -71,9 +72,9 @@
             // 
             this.btnEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.btnEdit.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnEdit.Location = new System.Drawing.Point(759, 12);
+            this.btnEdit.Location = new System.Drawing.Point(841, 12);
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(237, 61);
+            this.btnEdit.Size = new System.Drawing.Size(191, 61);
             this.btnEdit.TabIndex = 2;
             this.btnEdit.Text = "ویرایش";
             this.btnEdit.UseVisualStyleBackColor = false;
@@ -83,9 +84,9 @@
             // 
             this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnDelete.Location = new System.Drawing.Point(511, 12);
+            this.btnDelete.Location = new System.Drawing.Point(635, 12);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(237, 61);
+            this.btnDelete.Size = new System.Drawing.Size(191, 61);
             this.btnDelete.TabIndex = 3;
             this.btnDelete.Text = "حذف";
             this.btnDelete.UseVisualStyleBackColor = false;
@@ -95,9 +96,9 @@
             // 
             this.btnDone.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.btnDone.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnDone.Location = new System.Drawing.Point(262, 12);
+            this.btnDone.Location = new System.Drawing.Point(428, 12);
             this.btnDone.Name = "btnDone";
-            this.btnDone.Size = new System.Drawing.Size(237, 61);
+            this.btnDone.Size = new System.Drawing.Size(191, 61);
             this.btnDone.TabIndex = 4;
             this.btnDone.Text = "پایان تعمیر";
             this.btnDone.UseVisualStyleBackColor = false;
@@ -107,9 +108,9 @@
             // 
             this.btnComplete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnComplete.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnComplete.Location = new System.Drawing.Point(12, 12);
+            this.btnComplete.Location = new System.Drawing.Point(221, 12);
             this.btnComplete.Name = "btnComplete";
-            this.btnComplete.Size = new System.Drawing.Size(237, 61);
+            this.btnComplete.Size = new System.Drawing.Size(191, 61);
             this.btnComplete.TabIndex = 5;
             this.btnComplete.Text = "تحویل";
             this.btnComplete.UseVisualStyleBackColor = false;
@@ -126,12 +127,25 @@
             this.txbSearch.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txbSearch.TextChanged += new System.EventHandler(this.txbSearch_TextChanged);
             // 
+            // btnPrint
+            // 
+            this.btnPrint.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnPrint.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnPrint.Location = new System.Drawing.Point(12, 12);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(191, 61);
+            this.btnPrint.TabIndex = 7;
+            this.btnPrint.Text = "پرینت";
+            this.btnPrint.UseVisualStyleBackColor = false;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
+            // 
             // OrderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1254, 726);
+            this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.txbSearch);
             this.Controls.Add(this.btnComplete);
             this.Controls.Add(this.btnDone);
@@ -159,5 +173,6 @@
         private Button btnDone;
         private Button btnComplete;
         private TextBox txbSearch;
+        private Button btnPrint;
     }
 }

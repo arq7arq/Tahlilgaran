@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,11 +16,17 @@ namespace Tahlilgaran.Forms
 {
     public partial class OrderForm : Form
     {
+        private PrintDocument printDocument = new PrintDocument();
+        private Order _printOrder;
+        private Image _logo;
+
         private Form _parent;
         public OrderForm(Form parent)
         {
             InitializeComponent();
             _parent = parent;
+            printDocument.PrintPage += PrintDocument_PrintPage;
+            _logo = Properties.Resources.tahlilgaran;
         }
 
         public void UpdateData()
@@ -289,5 +297,197 @@ namespace Tahlilgaran.Forms
             orderDetail.Show();
             this.Hide();
         }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow row = dataGridView1.SelectedRows[0];
+
+            int id = Convert.ToInt32(row.Cells["OrderID"].Value);
+
+            using var db = new AppDBContext();
+
+            var res = db.Orders.Include(x => x.OrderPrices).FirstOrDefault(x => x.OrderID == id);
+
+            _printOrder = res;
+
+            if (res == null)
+            {
+                MessageBox.Show("خطا در دریافت اطلاعات");
+            }
+
+
+            using (PrintPreviewDialog preview = new PrintPreviewDialog())
+            {
+                preview.Document = printDocument;
+                preview.Width = 1000;
+                preview.Height = 700;
+                preview.ShowDialog();
+            }
+        }
+
+
+        private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            g.PageUnit = GraphicsUnit.Display;
+            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+
+            int x = e.MarginBounds.Left;
+            int y = e.MarginBounds.Top;
+            int width = e.MarginBounds.Width;
+
+            using Font shopFont = new Font("Tahoma", 22, FontStyle.Bold);
+            using Font titleFont = new Font("Tahoma", 30, FontStyle.Bold);
+            using Font normalFont = new Font("Tahoma", 16);
+            using Font boldFont = new Font("Tahoma", 16, FontStyle.Bold);
+            using Font tableFont = new Font("Tahoma", 15);
+            using Font headerFont = new Font("Tahoma", 15, FontStyle.Bold);
+
+            using Pen borderPen = new Pen(Color.Black, 1);
+            using Brush headerBrush = new SolidBrush(Color.FromArgb(235, 235, 235));
+
+            StringFormat rtl = new StringFormat
+            {
+                Alignment = StringAlignment.Far,
+                LineAlignment = StringAlignment.Center,
+                FormatFlags = StringFormatFlags.DirectionRightToLeft
+            };
+
+            StringFormat center = new StringFormat
+            {
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Center,
+                FormatFlags = StringFormatFlags.DirectionRightToLeft
+            };
+
+            // Outer border
+            g.DrawRectangle(borderPen, x - 20, y - 20, width + 40, e.MarginBounds.Height + 20);
+
+            // Logo
+            int logoSize = 100;
+            int logoX = x + (width - logoSize * 2) / 2;
+            g.DrawImage(_logo, logoX, y, logoSize * 2, logoSize);
+
+            y += 95;
+
+            // Shop name
+            //g.DrawString("فروشگاه شما", shopFont, Brushes.Black,
+            //    new RectangleF(x, y, width, 40), center);
+
+            //y += 38;
+
+            //g.DrawString("بهترین کیفیت، بهترین انتخاب", normalFont, Brushes.Black,
+            //    new RectangleF(x, y, width, 32), center);
+
+            y += 50;
+
+            // Invoice title
+            g.DrawString("فاکتور سفارش", titleFont, Brushes.Black,
+                new RectangleF(x, y, width, 55), center);
+
+            y += 80;
+
+            // Customer info table
+            int infoLabelWidth = 170;
+            int infoHeight = 55;
+
+            DrawCell(g, "تاریخ", boldFont, headerBrush, borderPen,
+                x + width - infoLabelWidth, y, infoLabelWidth, infoHeight, center);
+
+            DrawCell(g, DateTime.Now.ToString("yyyy/MM/dd HH:mm"), normalFont, Brushes.White, borderPen,
+                x, y, width - infoLabelWidth, infoHeight, center);
+
+            y += infoHeight;
+
+            DrawCell(g, "شماره تماس", boldFont, headerBrush, borderPen,
+                x + width - infoLabelWidth, y, infoLabelWidth, infoHeight, center);
+
+            DrawCell(g, _printOrder.Phone, normalFont, Brushes.White, borderPen,
+                x, y, width - infoLabelWidth, infoHeight, center);
+
+            y += infoHeight;
+
+            DrawCell(g, "نام مشتری", boldFont, headerBrush, borderPen,
+                x + width - infoLabelWidth, y, infoLabelWidth, infoHeight, center);
+
+            DrawCell(g, _printOrder.UserName, normalFont, Brushes.White, borderPen,
+                x, y, width - infoLabelWidth, infoHeight, rtl);
+
+            y += infoHeight + 40;
+
+            // Items table
+            int rowHeight = 55;
+            int numberWidth = 90;
+            int priceWidth = 230;
+            int titleWidth = width - numberWidth - priceWidth;
+
+            DrawCell(g, "ردیف", headerFont, headerBrush, borderPen,
+                x + width - numberWidth, y, numberWidth, rowHeight, center);
+
+            DrawCell(g, "عنوان", headerFont, headerBrush, borderPen,
+                x + priceWidth, y, titleWidth, rowHeight, center);
+
+            DrawCell(g, "قیمت (تومان)", headerFont, headerBrush, borderPen,
+                x, y, priceWidth, rowHeight, center);
+
+            y += rowHeight;
+
+            int index = 1;
+            decimal total = 0;
+
+            foreach (var item in _printOrder.OrderPrices)
+            {
+                total += item.Price;
+
+                DrawCell(g, index.ToString(), tableFont, Brushes.White, borderPen,
+                    x + width - numberWidth, y, numberWidth, rowHeight, center);
+
+                DrawCell(g, item.Title, tableFont, Brushes.White, borderPen,
+                    x + priceWidth, y, titleWidth, rowHeight, rtl);
+
+                DrawCell(g, $"{item.Price:N0}", tableFont, Brushes.White, borderPen,
+                    x, y, priceWidth, rowHeight, center);
+
+                y += rowHeight;
+                index++;
+            }
+
+            y += 40;
+
+            // Total
+            DrawCell(g, "هزینه کل", boldFont, headerBrush, borderPen,
+                x + width - infoLabelWidth, y, infoLabelWidth, 60, center);
+
+            DrawCell(g, $"{_printOrder.Price:N0} تومان", boldFont, Brushes.White, borderPen,
+                x, y, width - infoLabelWidth, 60, center);
+
+            y += 90;
+
+            // Footer
+            g.DrawString("با تشکر از خرید شما", normalFont, Brushes.Black,
+                new RectangleF(x, y, width, 40), center);
+
+            e.HasMorePages = false;
+        }
+
+        private void DrawCell(
+            Graphics g,
+            string text,
+            Font font,
+            Brush background,
+            Pen border,
+            int x,
+            int y,
+            int width,
+            int height,
+            StringFormat format)
+        {
+            g.FillRectangle(background, x, y, width, height);
+            g.DrawRectangle(border, x, y, width, height);
+
+            RectangleF textRect = new RectangleF(x + 10, y, width - 20, height);
+            g.DrawString(text ?? "", font, Brushes.Black, textRect, format);
+        }
     }
 }
+
