@@ -38,6 +38,7 @@ namespace Tahlilgaran.Forms
             if (password.Length == 0)
             {
                 MessageBox.Show("رمز عبور را وارد کنید");
+                return;
             }
 
             if (password != repass)

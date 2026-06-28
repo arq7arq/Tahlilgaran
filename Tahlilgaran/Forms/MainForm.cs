@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tahlilgaran.Data;
 using Tahlilgaran.Models;
 
 namespace Tahlilgaran.Forms
@@ -20,6 +21,36 @@ namespace Tahlilgaran.Forms
             InitializeComponent();
             _parent = parent;
             _admin = admin;
+
+        }
+
+        private void ShowReminder()
+        {
+            using var db = new AppDBContext();
+
+            var res = db.Orders.Where(x => x.Reminder && x.FinishTime != null);
+
+            string list = "";
+
+            string now = DateTime.Now.ToString("yy/MM/dd");
+
+            foreach (var item in res)
+            {
+                DateTime date = item.FinishTime.Value;
+                string date2 = date.AddMonths(6).ToString("yy/MM/dd");
+
+                if (date2.Equals(now))
+                {
+                    list += $"زمان سرویس {item.UserName} فرا رسیده\n";
+                }
+            }
+
+            if(list == String.Empty)
+            {
+                return;
+            }
+
+            MessageBox.Show(list);
         }
 
         private void pcbInventory_Click(object sender, EventArgs e)
