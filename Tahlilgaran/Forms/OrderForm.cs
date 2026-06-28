@@ -180,6 +180,13 @@ namespace Tahlilgaran.Forms
             if (res == null)
             {
                 MessageBox.Show("خطا در دریافت اطلاعات");
+                return;
+            }
+
+            if (res.IsComplete)
+            {
+                MessageBox.Show("کالا تحویل داده شده است");
+                return;
             }
 
             AddPriceForm addPriceForm = new AddPriceForm(this);
@@ -200,6 +207,13 @@ namespace Tahlilgaran.Forms
             if (res == null)
             {
                 MessageBox.Show("خطا در دریافت اطلاعات");
+                return;
+            }
+
+            if (res.IsComplete)
+            {
+                MessageBox.Show("کالا تحویل داده شده است");
+                return;
             }
 
             if (!res.IsDone)
