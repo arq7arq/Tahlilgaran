@@ -48,5 +48,12 @@ namespace Tahlilgaran.Forms
             changePasswordForm.Show();
             this.Hide();
         }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            UserListForm userListForm = new UserListForm(this);
+            userListForm.Show();
+            this.Hide();
+        }
     }
 }
