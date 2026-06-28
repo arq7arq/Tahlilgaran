@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,36 @@ namespace Tahlilgaran.Forms
 
         public void SetOrderID(int orderID)
         {
-            _orderID = orderID; 
+            _orderID = orderID;
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            using var db = new AppDBContext();
+
+            bool check = db.Orders.Find(_orderID).Reminder;
+
+            if (check)
+            {
+                chbReminder.Checked = true;
+            }
+
+            var res = db.OrderPrices.Where(x => x.OrderID == _orderID).Select(x => new
+            {
+                x.Title,
+                x.Price
+            }).ToList();
+
+            foreach (var item in res)
+            {
+                int rowIndex = dataGridView1.Rows.Add();
+
+                dataGridView1.Rows[rowIndex].Cells["Name"].Value = item.Title;
+                dataGridView1.Rows[rowIndex].Cells["Price"].Value = item.Price;
+            }
+
+            UpdateTotal();
         }
 
         private void Setup()
@@ -141,8 +171,11 @@ namespace Tahlilgaran.Forms
 
             decimal total = 0;
 
+            var old = db.OrderPrices.Where(x => x.OrderID == _orderID).ToList();
+
             try
             {
+                db.RemoveRange(old);
                 db.AddRange(orderPrices);
                 total = orderPrices.Sum(x => x.Price);
                 db.SaveChanges();
