@@ -140,7 +140,7 @@ namespace Tahlilgaran.Forms
             UpdateData();
         }
 
-        public void FinishDone(int id, decimal price)
+        public void FinishDone(int id, decimal price, bool reminder)
         {
             using var db = new AppDBContext();
 
@@ -150,6 +150,7 @@ namespace Tahlilgaran.Forms
             {
                 res.IsDone = true;
                 res.Price = price;
+                res.Reminder = reminder;
                 db.Update(res);
                 db.SaveChanges();
             }
@@ -382,7 +383,7 @@ namespace Tahlilgaran.Forms
             y += 50;
 
             // Invoice title
-            g.DrawString("فاکتور سفارش", titleFont, Brushes.Black,
+            g.DrawString("فاکتور", titleFont, Brushes.Black,
                 new RectangleF(x, y, width, 55), center);
 
             y += 80;

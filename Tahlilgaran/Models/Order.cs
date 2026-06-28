@@ -28,6 +28,9 @@ namespace Tahlilgaran.Models
 
 
 
+        public bool Reminder { get; set; } = false;
+
+
         public ICollection<OrderPrice> OrderPrices { get; set; }
     }
 }

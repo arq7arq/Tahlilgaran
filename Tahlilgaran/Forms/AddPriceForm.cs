@@ -113,6 +113,8 @@ namespace Tahlilgaran.Forms
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            bool reminder = false;
+
             List<OrderPrice> orderPrices = new List<OrderPrice>();
 
             foreach (DataGridViewRow row in dataGridView1.Rows)
@@ -128,6 +130,11 @@ namespace Tahlilgaran.Forms
                 };
 
                 orderPrices.Add(orderPrice);
+            }
+
+            if (chbReminder.Checked)
+            {
+                reminder = true;
             }
 
             using var db = new AppDBContext();
@@ -147,7 +154,7 @@ namespace Tahlilgaran.Forms
             finally
             {
                 MessageBox.Show("اطلاعات با موفقیت ثبت شد");
-                _parent.FinishDone(_orderID, total);
+                _parent.FinishDone(_orderID, total, reminder);
                 _parent.Update();
                 this.Close();
             }

@@ -34,6 +34,7 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.lblPrice = new System.Windows.Forms.Label();
+            this.chbReminder = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -55,7 +56,7 @@
             // btnAdd
             // 
             this.btnAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnAdd.Location = new System.Drawing.Point(682, 482);
+            this.btnAdd.Location = new System.Drawing.Point(682, 545);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(194, 72);
             this.btnAdd.TabIndex = 1;
@@ -66,7 +67,7 @@
             // btnDelete
             // 
             this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.btnDelete.Location = new System.Drawing.Point(12, 482);
+            this.btnDelete.Location = new System.Drawing.Point(12, 545);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(194, 72);
             this.btnDelete.TabIndex = 2;
@@ -78,7 +79,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(461, 494);
+            this.label1.Location = new System.Drawing.Point(461, 557);
             this.label1.Name = "label1";
             this.label1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.label1.Size = new System.Drawing.Size(182, 38);
@@ -89,20 +90,33 @@
             // 
             this.lblPrice.AutoSize = true;
             this.lblPrice.Font = new System.Drawing.Font("Segoe UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblPrice.Location = new System.Drawing.Point(276, 494);
+            this.lblPrice.Location = new System.Drawing.Point(276, 557);
             this.lblPrice.Name = "lblPrice";
             this.lblPrice.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.lblPrice.Size = new System.Drawing.Size(36, 38);
+            this.lblPrice.Size = new System.Drawing.Size(47, 38);
             this.lblPrice.TabIndex = 4;
             this.lblPrice.Text = "10";
             this.lblPrice.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // chbReminder
+            // 
+            this.chbReminder.AutoSize = true;
+            this.chbReminder.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.chbReminder.Location = new System.Drawing.Point(541, 474);
+            this.chbReminder.Name = "chbReminder";
+            this.chbReminder.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.chbReminder.Size = new System.Drawing.Size(335, 45);
+            this.chbReminder.TabIndex = 5;
+            this.chbReminder.Text = "یادآوری سرویس دوره ای";
+            this.chbReminder.UseVisualStyleBackColor = true;
             // 
             // AddPriceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(888, 591);
+            this.ClientSize = new System.Drawing.Size(888, 647);
+            this.Controls.Add(this.chbReminder);
             this.Controls.Add(this.lblPrice);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnDelete);
@@ -124,5 +138,6 @@
         private Button btnDelete;
         private Label label1;
         private Label lblPrice;
+        private CheckBox chbReminder;
     }
 }
