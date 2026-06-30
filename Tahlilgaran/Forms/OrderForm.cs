@@ -314,6 +314,7 @@ namespace Tahlilgaran.Forms
             this.Hide();
         }
 
+        private int _pagesPerSheet = 1;
         private void btnPrint_Click(object sender, EventArgs e)
         {
             DataGridViewRow row = dataGridView1.SelectedRows[0];
@@ -322,15 +323,41 @@ namespace Tahlilgaran.Forms
 
             using var db = new AppDBContext();
 
-            var res = db.Orders.Include(x => x.OrderPrices).FirstOrDefault(x => x.OrderID == id);
+            var res = db.Orders
+                .Include(x => x.OrderPrices)
+                .FirstOrDefault(x => x.OrderID == id);
 
             _printOrder = res;
 
             if (res == null)
             {
                 MessageBox.Show("خطا در دریافت اطلاعات");
+                return;
             }
 
+            using (PrintOptionsForm optionsForm = new PrintOptionsForm())
+            {
+                if (optionsForm.ShowDialog(this) != DialogResult.OK)
+                    return;
+
+                _pagesPerSheet = optionsForm.PagesPerSheet;
+
+                printDocument.DefaultPageSettings.PaperSize = GetPaperSize(optionsForm.PaperName);
+                printDocument.DefaultPageSettings.Landscape = optionsForm.Landscape;
+                printDocument.DefaultPageSettings.Margins = new Margins(40, 40, 40, 40);
+
+                if (optionsForm.OpenPrinterDialog)
+                {
+                    using PrintDialog printDialog = new PrintDialog
+                    {
+                        Document = printDocument,
+                        UseEXDialog = true
+                    };
+
+                    if (printDialog.ShowDialog(this) != DialogResult.OK)
+                        return;
+                }
+            }
 
             using (PrintPreviewDialog preview = new PrintPreviewDialog())
             {
@@ -354,56 +381,90 @@ namespace Tahlilgaran.Forms
             g.PageUnit = GraphicsUnit.Display;
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
 
-            int x = e.MarginBounds.Left;
-            int y = e.MarginBounds.Top;
-            int width = e.MarginBounds.Width;
-            int pageBottom = e.MarginBounds.Bottom;
+            if (_pagesPerSheet == 2)
+            {
+                Rectangle bounds = e.MarginBounds;
+                int gap = 20;
+                int columnWidth = (bounds.Width - gap) / 2;
 
-            using Font shopFont = new Font("Tahoma", 22, FontStyle.Bold);
-            using Font titleFont = new Font("Tahoma", 30, FontStyle.Bold);
-            using Font normalFont = new Font("Tahoma", 16);
-            using Font boldFont = new Font("Tahoma", 16, FontStyle.Bold);
-            using Font tableFont = new Font("Tahoma", 15);
-            using Font headerFont = new Font("Tahoma", 15, FontStyle.Bold);
+                Rectangle rightPage = new Rectangle(
+                    bounds.Right - columnWidth,
+                    bounds.Top,
+                    columnWidth,
+                    bounds.Height);
 
-            using Pen borderPen = new Pen(Color.Black, 1);
+                Rectangle leftPage = new Rectangle(
+                    bounds.Left,
+                    bounds.Top,
+                    columnWidth,
+                    bounds.Height);
+
+                bool hasMore;
+                DrawInvoicePage(g, rightPage, 0.62f, out hasMore);
+
+                if (hasMore)
+                    DrawInvoicePage(g, leftPage, 0.62f, out hasMore);
+
+                e.HasMorePages = hasMore;
+                return;
+            }
+
+            DrawInvoicePage(g, e.MarginBounds, 1f, out bool morePages);
+            e.HasMorePages = morePages;
+        }
+
+        private void DrawInvoicePage(Graphics g, Rectangle pageBounds, float scale, out bool hasMorePages)
+        {
+            hasMorePages = false;
+
+            int S(int value) => Math.Max(1, (int)Math.Round(value * scale));
+            float FS(float value) => Math.Max(5f, value * scale);
+
+            int x = pageBounds.Left;
+            int y = pageBounds.Top;
+            int width = pageBounds.Width;
+            int pageBottom = pageBounds.Bottom;
+
+            using Font titleFont = new Font("Tahoma", FS(20), FontStyle.Bold);
+            using Font normalFont = new Font("Tahoma", FS(11));
+            using Font boldFont = new Font("Tahoma", FS(11), FontStyle.Bold);
+            using Font tableFont = new Font("Tahoma", FS(10));
+            using Font headerFont = new Font("Tahoma", FS(10), FontStyle.Bold);
+
+            using Pen borderPen = new Pen(Color.Black, Math.Max(1f, scale));
             using Brush headerBrush = new SolidBrush(Color.FromArgb(235, 235, 235));
 
-            StringFormat rtl = new StringFormat
+            using StringFormat rtl = new StringFormat
             {
                 Alignment = StringAlignment.Far,
                 LineAlignment = StringAlignment.Center,
                 FormatFlags = StringFormatFlags.DirectionRightToLeft
             };
 
-            StringFormat center = new StringFormat
+            using StringFormat center = new StringFormat
             {
                 Alignment = StringAlignment.Center,
                 LineAlignment = StringAlignment.Center,
                 FormatFlags = StringFormatFlags.DirectionRightToLeft
             };
 
-            // Outer border
-            g.DrawRectangle(borderPen, x - 20, y - 20, width + 40, e.MarginBounds.Height + 20);
+            g.DrawRectangle(borderPen, x - S(12), y - S(12), width + S(24), pageBounds.Height + S(12));
 
-            // Logo
-            int logoSize = 100;
+            int logoSize = S(70);
             int logoX = x + (width - logoSize * 2) / 2;
 
             if (_logo != null)
                 g.DrawImage(_logo, logoX, y, logoSize * 2, logoSize);
 
-            y += 145;
+            y += S(95);
 
-            // Invoice title
             g.DrawString("فاکتور", titleFont, Brushes.Black,
-                new RectangleF(x, y, width, 55), center);
+                new RectangleF(x, y, width, S(36)), center);
 
-            y += 80;
+            y += S(50);
 
-            // Customer info table
-            int infoLabelWidth = 170;
-            int infoHeight = 55;
+            int infoLabelWidth = S(120);
+            int infoHeight = S(34);
 
             DrawCell(g, "تاریخ", boldFont, headerBrush, borderPen,
                 x + width - infoLabelWidth, y, infoLabelWidth, infoHeight, center);
@@ -427,12 +488,11 @@ namespace Tahlilgaran.Forms
             DrawCell(g, _printOrder.UserName, normalFont, Brushes.White, borderPen,
                 x, y, width - infoLabelWidth, infoHeight, rtl);
 
-            y += infoHeight + 40;
+            y += infoHeight + S(24);
 
-            // Items table
-            int rowHeight = 55;
-            int numberWidth = 90;
-            int priceWidth = 230;
+            int rowHeight = S(34);
+            int numberWidth = S(55);
+            int priceWidth = S(150);
             int titleWidth = width - numberWidth - priceWidth;
 
             DrawCell(g, "ردیف", headerFont, headerBrush, borderPen,
@@ -447,20 +507,16 @@ namespace Tahlilgaran.Forms
             y += rowHeight;
 
             var items = _printOrder.OrderPrices.ToList();
-
-            int lastPageReserve = 200;
+            int lastPageReserve = S(125);
 
             while (_printItemIndex < items.Count)
             {
                 bool isLastItem = _printItemIndex == items.Count - 1;
-                int neededSpace = rowHeight;
-
-                if (isLastItem)
-                    neededSpace += lastPageReserve;
+                int neededSpace = rowHeight + (isLastItem ? lastPageReserve : 0);
 
                 if (y + neededSpace > pageBottom)
                 {
-                    e.HasMorePages = true;
+                    hasMorePages = true;
                     return;
                 }
 
@@ -479,22 +535,32 @@ namespace Tahlilgaran.Forms
                 _printItemIndex++;
             }
 
-            y += 40;
+            y += S(24);
 
-            // Total
             DrawCell(g, "هزینه کل", boldFont, headerBrush, borderPen,
-                x + width - infoLabelWidth, y, infoLabelWidth, 60, center);
+                x + width - infoLabelWidth, y, infoLabelWidth, S(38), center);
 
             DrawCell(g, $"{_printOrder.Price:N0} تومان", boldFont, Brushes.White, borderPen,
-                x, y, width - infoLabelWidth, 60, center);
+                x, y, width - infoLabelWidth, S(38), center);
 
-            y += 90;
+            y += S(56);
 
-            // Footer
             g.DrawString("با تشکر از خرید شما", normalFont, Brushes.Black,
-                new RectangleF(x, y, width, 40), center);
+                new RectangleF(x, y, width, S(28)), center);
+        }
 
-            e.HasMorePages = false;
+        private PaperSize GetPaperSize(string paperName)
+        {
+            foreach (PaperSize size in printDocument.PrinterSettings.PaperSizes)
+            {
+                if (string.Equals(size.PaperName, paperName, StringComparison.OrdinalIgnoreCase))
+                    return size;
+            }
+
+            if (paperName == "A5")
+                return new PaperSize("A5", 583, 827);
+
+            return new PaperSize("A4", 827, 1169);
         }
 
         private void DrawCell(
@@ -512,7 +578,7 @@ namespace Tahlilgaran.Forms
             g.FillRectangle(background, x, y, width, height);
             g.DrawRectangle(border, x, y, width, height);
 
-            RectangleF textRect = new RectangleF(x + 10, y, width - 20, height);
+            RectangleF textRect = new RectangleF(x + 6, y, width - 12, height);
             g.DrawString(text ?? "", font, Brushes.Black, textRect, format);
         }
     }
